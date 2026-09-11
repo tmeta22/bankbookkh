@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore 58 commercial banks in Cambodia. Search in English or Khmer, find contact details, and save banks for later.">
+  <meta name="theme-color" content="#173f35">
+  <title>Bankbook — Cambodia’s Commercial Bank Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=DM+Serif+Display:ital@0;1&family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a href="#directory" class="skip-link">Skip to directory</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="Bankbook home"><span class="brand-symbol" data-icon="bank"></span><span>bankbook<span class="brand-country">CAMBODIA</span></span></a>
+      <nav aria-label="Main navigation"><a href="#directory" class="nav-link active" data-i18n="directory">Bank directory</a><button class="nav-link" id="saved-nav"><span data-icon="bookmark"></span><span data-i18n="saved">Saved banks</span><span id="saved-count">0</span></button></nav>
+      <div class="header-actions"><button id="about-button" class="about-button" data-i18n="about">About this directory <span>↗</span></button><span class="header-divider"></span><button class="language-button" id="language-button" aria-label="Switch to Khmer">EN <span>⌄</span></button></div>
+    </div>
+  </header>
+  <main>
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy"><p class="eyebrow"><span></span><span data-i18n="eyebrow">A clearer view of banking in Cambodia</span></p><h1 id="hero-title" data-i18n="hero">Find your bank.<br><em>Make your next move.</em></h1><p class="hero-khmer" lang="km">បញ្ជីធនាគារពាណិជ្ជនៅកម្ពុជា</p><p class="hero-description" data-i18n="description">Your guide to Cambodia’s commercial banks.<br>Explore, connect, and find the details that matter.</p><a href="#directory" class="hero-link"><span data-i18n="explore">Explore the directory</span><span>↓</span></a></div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 460 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="250" cy="153" r="140" fill="#E9EBDD"/><circle cx="250" cy="153" r="113" stroke="#D4DBCC"/><circle cx="250" cy="153" r="86" stroke="#D4DBCC"/>
+          <path d="M49 250H435M84 267H399" stroke="#C9D3C4"/>
+          <path d="M155 125L275 85L361 128V251H155V125Z" fill="#C9D5BE"/>
+          <path d="M275 85L361 128V251H275V85Z" fill="#A9BEA7"/>
+          <path d="M122 123L245 62L374 123L344 134L245 89L147 137L122 123Z" fill="#214A3E"/>
+          <path d="M142 121L245 72L354 121" stroke="#C3CFB0" stroke-width="2"/>
+          <path d="M156 132L245 90L338 132H156Z" fill="#F7F6E9"/>
+          <path d="M181 125L245 103L309 125H181Z" fill="#D6DDC6"/>
+          <circle cx="245" cy="119" r="7" fill="#AF9251"/><path d="M245 114V124M242 117H248M242 121H248" stroke="#F9F8EC"/>
+          <path d="M150 137H340V147H150V137Z" fill="#214A3E"/>
+          <path d="M167 150H188V229H167V150ZM211 150H232V229H211V150ZM255 150H276V229H255V150ZM299 150H320V229H299V150Z" fill="#F8F6E9"/>
+          <path d="M181 150H188V229H181V150ZM225 150H232V229H225V150ZM269 150H276V229H269V150ZM313 150H320V229H313V150Z" fill="#DDE1CC"/>
+          <path d="M163 148H192V155H163V148ZM207 148H236V155H207V148ZM251 148H280V155H251V148ZM295 148H324V155H295V148Z" fill="#E6E8D6"/>
+          <path d="M161 226H194V233H161V226ZM205 226H238V233H205V226ZM249 226H282V233H249V226ZM293 226H326V233H293V226Z" fill="#E6E8D6"/>
+          <path d="M150 234H340V243H150V234Z" fill="#214A3E"/><path d="M139 243H351V251H139V243Z" fill="#A4B89E"/><path d="M129 251H361V259H129V251Z" fill="#C5D0BA"/>
+          <path d="M105 249V197M105 224C87 224 76 210 82 191C97 190 107 203 105 224Z" fill="#79997B"/><path d="M105 214C122 209 128 193 119 179C104 183 99 199 105 214Z" fill="#315A46"/><path d="M99 249H111L115 230H95L99 249Z" fill="#B39B66"/>
+          <path d="M386 248V214M386 233C372 232 368 220 372 209C384 210 390 218 386 233Z" fill="#8BA582"/><path d="M386 224C398 218 403 207 397 195C385 200 382 211 386 224Z" fill="#315A46"/><path d="M380 249H392L395 235H377L380 249Z" fill="#B39B66"/>
+          <path d="M80 102H91M85.5 96.5V107.5M371 63H381M376 58V68" stroke="#AF9251" stroke-width="1.5"/>
+          <circle cx="414" cy="165" r="3" fill="#B69C65"/><circle cx="125" cy="65" r="2" fill="#8BA582"/>
+        </svg>
+        <div class="art-caption"><span class="status-dot"></span>LOCAL KNOWLEDGE. BETTER CONNECTIONS.</div>
+      </div>
+    </section>
+    <section class="stats container" aria-label="Directory at a glance"><div class="stat"><span class="stat-icon" data-icon="bank"></span><div><strong id="total-stat">58</strong><span data-i18n="commercial">Commercial banks</span></div></div><div class="stat"><span class="stat-icon" data-icon="building"></span><div><strong id="local-stat">47</strong><span data-i18n="local">Locally incorporated</span></div></div><div class="stat"><span class="stat-icon" data-icon="globe"></span><div><strong id="branch-stat">11</strong><span data-i18n="branch">Foreign branches</span></div></div><div class="stat date-stat"><span class="stat-icon" data-icon="calendar"></span><div><span data-i18n="asof">Directory as of</span><strong>31 May 2026</strong></div></div></section>
+    <section id="directory" class="directory container" aria-labelledby="directory-title">
+      <div class="section-heading"><div><p class="eyebrow" data-i18n="exploreLabel">THE DIRECTORY</p><h2 id="directory-title" data-i18n="allBanks">All commercial banks</h2><p data-i18n="directoryDescription">The right information, all in one place.</p></div><button id="download-button" class="outline-button" disabled><span data-icon="download"></span><span data-i18n="download">Export directory</span></button></div>
+      <div class="directory-layout">
+        <aside class="filter-sidebar" aria-label="Directory filters">
+          <h3 data-i18n="bankType">BANK TYPE</h3>
+          <div class="filter-options"><button class="filter-button selected" data-filter="all" aria-pressed="true"><span data-icon="grid"></span><span data-i18n="all">All banks</span><span class="filter-count" id="count-all">58</span></button><button class="filter-button" data-filter="local" aria-pressed="false"><span data-icon="building"></span><span data-i18n="localShort">Locally incorporated</span><span class="filter-count" id="count-local">47</span></button><button class="filter-button" data-filter="branch" aria-pressed="false"><span data-icon="globe"></span><span data-i18n="branch">Foreign branches</span><span class="filter-count" id="count-branch">11</span></button></div>
+          <div class="saved-filter"><button class="filter-button" id="saved-filter" aria-pressed="false"><span data-icon="bookmark"></span><span data-i18n="saved">Saved banks</span><span class="filter-count" id="sidebar-saved-count">0</span></button></div>
+          <div class="source-note"><span class="source-icon" data-icon="shield"></span><h4 data-i18n="sourceTitle">Know your source</h4><p data-i18n="sourceDescription">Based on the National Bank of Cambodia’s commercial bank list, as cited in the supplied directory.</p><button id="source-button"><span data-i18n="sourceLink">About the data</span> ↗</button></div>
+        </aside>
+        <div class="results-panel">
+          <div class="search-wrap"><span data-icon="search"></span><label for="search-input" class="sr-only">Search bank names, addresses or phone numbers</label><input id="search-input" type="search" placeholder="Search by bank name or address…" autocomplete="off"><button id="clear-search" aria-label="Clear search" hidden>×</button><kbd>/</kbd></div>
+          <div class="results-toolbar"><p id="result-count" aria-live="polite">Loading banks…</p><div class="view-controls"><label for="sort-select" data-i18n="sort">Sort by:</label><select id="sort-select"><option value="az">Name (A–Z)</option><option value="za">Name (Z–A)</option><option value="original">Directory order</option></select><span class="toolbar-divider"></span><div class="view-toggle" aria-label="Display mode"><button id="grid-view" class="selected" aria-label="Grid view" aria-pressed="true"><span data-icon="grid"></span></button><button id="list-view" aria-label="List view" aria-pressed="false"><span data-icon="list"></span></button></div></div></div>
+          <div id="bank-grid" class="bank-grid" aria-busy="true"></div>
+          <div id="empty-state" class="empty-state" hidden><span data-icon="search"></span><h3 data-i18n="noResults">No banks found</h3><p data-i18n="noResultsHint">Try another name or address, or clear your filters.</p><button id="reset-filters" class="primary-button" data-i18n="reset">Reset filters</button></div>
+          <div id="load-error" class="empty-state" hidden><h3>We couldn’t load the directory.</h3><p>Please check your connection and try again.</p><button id="retry-button" class="primary-button">Try again</button></div>
+          <div class="pagination" id="pagination"><span id="page-summary"></span><div id="page-buttons"></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="bottom-note container"><span data-icon="info"></span><p data-i18n="disclaimer">A helpful starting point, not financial advice. Please confirm contact details and services directly with your bank.</p><a href="#" data-i18n="backTop">Back to top ↑</a></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand footer-brand" href="./"><span class="brand-symbol" data-icon="bank"></span><span>bankbook<span class="brand-country">CAMBODIA</span></span></a><p data-i18n="footerText">Made for better connections.<br>An independent guide to banking in Cambodia.</p><span class="footer-date">CAMBODIA · 2026</span></div></footer>
+  <dialog id="bank-dialog" aria-labelledby="dialog-title"><button class="dialog-close" id="close-dialog" aria-label="Close dialog"><span data-icon="close"></span></button><div id="dialog-content"></div></dialog>
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
