@@ -141,15 +141,42 @@ async function loadBanks() {
   $('#bank-grid').setAttribute('aria-busy', 'true');
   $('#result-count').textContent = text('Loading banks…', 'កំពុងផ្ទុក…');
   try {
-    // The untouched upload is the single source of truth. Parse only its JSON data, never execute its scripts.
-    const response = await fetch('original.html');
+    const response = await fetch('bankbook-cambodia-directory.csv');
     if (!response.ok) throw new Error(`Directory request failed (${response.status})`);
-    const source = await response.text();
-    const match = source.match(/const banks = (\[[\s\S]*?\n\]);/);
-    if (!match) throw new Error('Bank data not found in source directory');
-    const rows = JSON.parse(match[1]);
-    if (!Array.isArray(rows) || !rows.every(row => Array.isArray(row) && row.length === 5 && row.every(field => typeof field === 'string') && ['local','branch'].includes(row[4]))) throw new Error('Invalid directory data');
-    state.banks = rows.map(([name, km, address, phone, type], id) => ({id, name, km, address, phone, type}));
+    const csvText = await response.text();
+    const lines = csvText.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+    const rows = lines.slice(1).map(line => {
+      const values = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          values.push(current.trim());
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      values.push(current.trim());
+      return values;
+    });
+    state.banks = rows.map((row, id) => ({
+      id,
+      name: row[0].replace(/^"|"$/g, ''),
+      km: row[1].replace(/^"|"$/g, ''),
+      address: row[2].replace(/^"|"$/g, ''),
+      phone: row[3].replace(/^"|"$/g, ''),
+      type: row[4].replace(/^"|"$/g, '') === 'Locally Incorporated' ? 'local' : 'branch'
+    }));
     state.saved = new Set([...state.saved].filter(id => id >= 0 && id < state.banks.length));
     const local = state.banks.filter(bank => bank.type === 'local').length;
     $('#total-stat').textContent = $('#count-all').textContent = state.banks.length;
