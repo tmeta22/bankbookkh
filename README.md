@@ -4,8 +4,9 @@
 A polished, responsive, bilingual frontend for exploring Cambodia's commercial banks. The design uses warm ivory, forest green, editorial typography, and a lightweight SVG banking illustration.
 
 ## Features
-- **57 banks** from the National Bank of Cambodia's List of Commercial Banks (as at 31 May 2026)
+- **55 banks** (44 locally incorporated, 11 foreign branches) from the National Bank of Cambodia's List of Commercial Banks (as at 31 August 2026)
 - Bilingual interface: English/Khmer with localStorage persistence
+- Official Khmer bank names shown alongside English names
 - Instant search across names, Khmer names, addresses, phone numbers
 - Filter by bank type: Locally incorporated / Foreign branches
 - Save banks locally (localStorage with session fallback)
@@ -20,15 +21,26 @@ A polished, responsive, bilingual frontend for exploring Cambodia's commercial b
 ## Data source
 National Bank of Cambodia — List of Commercial Banks  
 https://www.nbc.gov.kh/english/supervision/commercial_banks.php  
-Directory date: 31 May 2026
+Directory date: 31 August 2026
+
+The August 2026 NBC export refreshes the official Khmer legal names and expands them with their registered suffixes (for example, `ធនាគារ អេស៊ីលីដា ភីអិលស៊ី` for ACLEDA Bank Plc.). English names, addresses, and contact numbers are unchanged from the previous listing apart from minor source formatting; the directory keeps the cleaned English addresses used by the site.
 
 *This data has not been independently verified. This site is not affiliated with or endorsed by the NBC.*
+
+## Data updates
+### 31 August 2026
+- Refreshed the directory from the NBC `Commercial_Banks.csv` export.
+- Updated all Khmer bank names to the NBC's current official legal names.
+- Removed three banks no longer present in the NBC list: CCU Commercial Bank PLC., Heng Feng (Cambodia) Bank PLC., and HH Bank (Cambodia) PLC.
+- Confirmed the remaining 55 banks, their addresses, and phone numbers; the directory date is now 31 August 2026.
+- Recalculated the totals shown in the interface (55 total / 44 local / 11 foreign branches) and refreshed all UI/export date references.
 
 ## Files
 - `index.html` — semantic application shell and SVG hero illustration
 - `css/style.css` — design tokens, layouts, cards, dialogs, responsive rules
 - `js/main.js` — data loading, validation, UI rendering, localization, event handling, search, export, persistence
-- `bankbook-cambodia-directory.csv` — source data (57 records)
+- `bankbook-cambodia-directory.csv` — source data (55 records, 2026-08-31)
+- `tests/smoke.html`, `tests/smoke.js` — browser-based interaction checks
 - `.github/workflows/deploy.yml` — GitHub Pages deployment
 
 ## Local development
@@ -43,8 +55,10 @@ python3 -m http.server 8000
 Push to `main` branch triggers GitHub Actions workflow to deploy to GitHub Pages.
 
 ## Data model
-Original CSV columns: Bank name (English), Bank name (Khmer), Address, Phone numbers, Type, Directory date  
-Runtime object: `{id, name, km, address, phone, type}` where `type` is `"local"` or `"branch"`
+Directory CSV columns: Bank name (English), Bank name (Khmer), Address, Phone numbers, Type, Directory date  
+Runtime object: `{id, name, km, address, phone, type}` where `type` is `"local"` or `"branch"` and `id` is the 0-based directory index.
+
+The NBC export also includes Khmer-language addresses; the application currently displays the English address and the official Khmer bank name.
 
 ## localStorage keys
 - `bankbook-saved`: JSON array of saved bank indices
@@ -54,7 +68,7 @@ Runtime object: `{id, name, km, address, phone, type}` where `type` is `"local"`
 - Not an official NBC product
 - All addresses are in Phnom Penh (not a retail branch/ATM locator)
 - Initial badges are directory identifiers, not official bank logos
-- Saved banks are browser/device local only
+- Saved banks are browser/device local only and use directory indices, so a future data refresh may shift which bank a saved index refers to
 - No backend, analytics, or external tracking
 
 ## License

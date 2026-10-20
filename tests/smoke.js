@@ -15,10 +15,10 @@ async function runTests() {
     const result = () => $('#result-count').textContent;
     const wasKhmer = doc.documentElement.lang === 'km';
     if (wasKhmer) click('#language-button');
-    check($$('.bank-card').length === 12 && result().includes('58'), 'All 58 source records load, 12 cards on first page');
-    check($('#local-stat').textContent === '47' && $('#branch-stat').textContent === '11', 'Category totals calculated from source');
+    check($$('.bank-card').length === 12 && result().includes('55'), 'All 55 source records load, 12 cards on first page');
+    check($('#local-stat').textContent === '44' && $('#branch-stat').textContent === '11', 'Category totals calculated from source');
     check($('.bank-card h3').textContent.includes('ACLEDA'), 'Default alphabetical sorting');
-    click('[data-filter="local"]'); check(result().includes('47') && $$('.type-badge').every(el => el.classList.contains('local')), 'Local filter returns 47 local banks');
+    click('[data-filter="local"]'); check(result().includes('44') && $$('.type-badge').every(el => el.classList.contains('local')), 'Local filter returns 44 local banks');
     click('[data-filter="branch"]'); check(result().includes('11') && $$('.bank-card').length === 11, 'Foreign branch filter returns 11 banks');
     click('[data-filter="all"]');
     input('ABA'); check($$('.bank-card').some(el => el.textContent.includes('Advanced Bank')), 'Common bank initials are searchable');
@@ -50,7 +50,7 @@ async function runTests() {
     doc.addEventListener('click', preventDownload, true);
     click('#download-button');
     const csv = await exportBlob.text();
-    check(csv.split('\r\n').length === 59 && csv.includes('ធនាគារ') && csv.includes('2026-05-31'), 'CSV export contains all 58 bilingual records and source date');
+    check(csv.split('\r\n').length === 56 && csv.includes('ធនាគារ') && csv.includes('2026-08-31'), 'CSV export contains all 55 bilingual records and source date');
     input('ACLEDA'); click('#download-button'); const filteredCsv = await exportBlob.text(); check(filteredCsv.split('\r\n').length === 2 && filteredCsv.includes('ACLEDA'), 'Export respects active search');
     win.URL.createObjectURL = create; doc.removeEventListener('click', preventDownload, true);
     click('#reset-filters');
