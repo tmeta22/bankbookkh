@@ -20,6 +20,13 @@ async function runTests() {
     check($('#local-stat').textContent === '44' && $('#branch-stat').textContent === '11', 'Category totals calculated from source');
     check(!$('#history').hidden && $$('.history-item').length === 3 && $('#history-count').textContent === '3', 'Removal history lists all 3 removed banks');
     check($('#history-list').textContent.includes('CCU Commercial Bank') && $('#history-list').textContent.includes('31 August 2026'), 'Removal history keeps full records and removal dates');
+    const manifestLink = $('link[rel="manifest"]');
+    const ogImage = $('meta[property="og:image"]');
+    check(!!$('link[rel="icon"][type="image/svg+xml"]') && !!$('link[rel="apple-touch-icon"]') && !!manifestLink, 'Favicon, touch icon, and manifest are linked');
+    check(ogImage?.content === 'https://tmeta22.github.io/bankbookkh/og-image.png' && $('meta[property="og:image:width"]')?.content === '1200' && $('meta[property="og:image:height"]')?.content === '630', 'Open Graph image metadata is complete');
+    const manifest = await fetch(manifestLink.href).then(response => response.ok ? response.json() : null).catch(() => null);
+    const manifestIconsOk = !!manifest?.icons?.length && manifest.icons.length >= 4 && (await Promise.all(manifest.icons.map(icon => fetch(new URL(icon.src, manifestLink.href)).then(response => response.ok).catch(() => false)))).every(Boolean);
+    check(manifestIconsOk && manifest.icons.some(icon => icon.purpose === 'maskable'), 'Web app manifest and icons resolve');
     check($('.bank-card h3').textContent.includes('ACLEDA'), 'Default alphabetical sorting');
     click('[data-filter="local"]'); check(result().includes('44') && $$('.type-badge').every(el => el.classList.contains('local')), 'Local filter returns 44 local banks');
     click('[data-filter="branch"]'); check(result().includes('11') && $$('.bank-card').length === 11, 'Foreign branch filter returns 11 banks');

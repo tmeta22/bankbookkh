@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="title">
+  <title id="title">Bankbook</title>
+  <rect width="512" height="512" rx="112" fill="#173f35"/>
+  <g fill="none" stroke="#f8f8e9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 218 256 114l160 104" stroke-width="40"/>
+    <path d="M120 246h272" stroke-width="34"/>
+    <path d="M184 284v112M256 284v112M328 284v112" stroke-width="38"/>
+    <path d="M128 408h256" stroke-width="36"/>
+  </g>
+</svg>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bankbook — square social card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Kantumruy+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* __FONT_FACES__ */
+    *{box-sizing:border-box}
+    html,body{margin:0;width:1200px;height:1200px;overflow:hidden;background:#fafbf7}
+    :root{--green:#173f35;--green-dark:#12372e;--soft:#eef2e9;--gold:#ac8c53;--ink:#263e34;--muted:#6f7d70;--line:#dfe5d8;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans','Kantumruy Pro',sans-serif;--khmer:'Kantumruy Pro','DM Sans',sans-serif}
+    .canvas{position:relative;width:1200px;height:1200px;overflow:hidden;background:radial-gradient(ellipse at 50% 74%,#eef2e9 0%,rgba(238,242,233,0) 52%),linear-gradient(145deg,#fbfcf8 0%,#f7f8f1 100%);font-family:var(--sans);color:var(--ink)}
+    .canvas:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#173f35 1px,transparent 1px);background-size:28px 28px;opacity:.03;-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 62%);mask-image:linear-gradient(180deg,#000 0%,transparent 62%)}
+    .topbar{position:absolute;top:0;left:0;right:0;height:7px;background:linear-gradient(90deg,#173f35 0 61%,#ac8c53 61% 63%,#e7ecdf 63% 100%)}
+    .brand{position:absolute;left:72px;top:64px;display:flex;align-items:center;gap:15px}
+    .brand-mark{width:58px;height:64px;border-radius:15px;background:linear-gradient(145deg,#1b4a3e,#12372e);display:grid;place-items:center;box-shadow:0 10px 24px rgba(23,63,53,.17)}
+    .brand-mark svg{width:36px;height:36px;display:block}
+    .brand-word{font-size:34px;font-weight:700;letter-spacing:-1.3px;line-height:.95;color:var(--green-dark)}
+    .brand-word span{display:block;font-size:9px;font-weight:600;letter-spacing:4.4px;color:#75826f;margin-top:8px;padding-left:1px}
+    .lang-pill{position:absolute;right:72px;top:78px;display:flex;align-items:center;gap:10px;padding:12px 17px;border-radius:999px;background:#fff;border:1px solid #e0e6d8;box-shadow:0 10px 24px rgba(23,63,53,.06);font-size:11.5px;font-weight:600;color:var(--green)}
+    .lang-pill .divider{width:1px;height:13px;background:#dfe5d8}
+    .lang-pill .km{font-family:var(--khmer);font-size:15px;font-weight:500;line-height:1}
+    .eyebrow{position:absolute;left:50%;top:216px;transform:translateX(-50%);display:flex;align-items:center;gap:11px;font-size:10.5px;letter-spacing:2.2px;font-weight:700;color:#74836d;text-transform:uppercase;white-space:nowrap}
+    .eyebrow:before,.eyebrow:after{content:"";width:24px;height:1px;background:var(--gold)}
+    .headline{position:absolute;left:0;right:0;top:250px;margin:0;text-align:center;font-family:var(--serif);font-weight:400;font-size:92px;line-height:1.03;letter-spacing:-2.2px;color:var(--green-dark)}
+    .headline em{font-style:italic;font-weight:400;color:#6d805e}
+    .description{position:absolute;left:0;right:0;top:474px;margin:0;text-align:center;font-size:22px;line-height:1.5;letter-spacing:-.15px;color:#6f7d70}
+    .description strong{color:var(--green);font-weight:600}
+    .stats{position:absolute;left:220px;top:592px;width:760px;display:flex;align-items:flex-start;border-top:1px solid var(--line);padding-top:20px}
+    .stat{padding-right:24px;margin-right:24px;border-right:1px solid var(--line);white-space:nowrap}
+    .stat strong{display:block;font-size:34px;line-height:1;font-weight:600;letter-spacing:-1px;color:var(--green)}
+    .stat span{display:block;font-size:9px;line-height:1.4;letter-spacing:1.45px;text-transform:uppercase;color:#7e8a75;margin-top:8px}
+    .date-pill{margin-left:auto;display:flex;align-items:center;gap:8px;background:#eef2e9;border:1px solid #dde5d5;border-radius:999px;padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:.35px;color:#4f6553;white-space:nowrap}
+    .date-pill i{width:6px;height:6px;border-radius:50%;background:#819370;display:block}
+    .art{position:absolute;left:0;right:0;top:712px;height:400px}
+    .art-glow{position:absolute;left:50%;top:0;width:450px;height:450px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 68%)}
+    .art-circle{position:absolute;left:50%;top:16px;width:378px;height:378px;transform:translateX(-50%);border-radius:50%;background:#e9eddf}
+    .art-circle:before,.art-circle:after{content:"";position:absolute;border:1px solid #d2dac8;border-radius:50%}
+    .art-circle:before{inset:30px}
+    .art-circle:after{inset:62px}
+    .mark-tile{position:absolute;left:50%;top:78px;width:206px;height:222px;transform:translateX(-50%) rotate(-4deg);border-radius:40px;background:linear-gradient(145deg,#1b4a3e,#12372e);display:grid;place-items:center;box-shadow:0 30px 50px rgba(23,63,53,.23);border:1px solid rgba(255,255,255,.08)}
+    .mark-tile svg{width:132px;height:132px;display:block;transform:rotate(4deg)}
+    .spark{position:absolute;left:calc(50% + 164px);top:54px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 8px rgba(172,140,83,.12)}
+    .khmer-caption{position:absolute;left:0;right:0;bottom:70px;text-align:center;font-family:var(--khmer);font-size:19px;font-weight:500;line-height:1.7;color:#50684c;letter-spacing:.1px}
+    .footer{position:absolute;left:72px;right:72px;bottom:38px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#8a9286;letter-spacing:.1px;white-space:nowrap}
+    .footer .url{font-weight:600;color:var(--green)}
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="topbar"></div>
+    <div class="brand" aria-label="Bankbook Cambodia">
+      <div class="brand-mark">
+        <svg viewBox="0 0 512 512" aria-hidden="true">
+          <g fill="none" stroke="#f8f8e9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M94 224 256 120l162 104" stroke-width="30"/>
+            <path d="M118 248h276" stroke-width="26"/>
+            <path d="M150 288v108M220 288v108M292 288v108M362 288v108" stroke-width="26"/>
+            <path d="M126 416h260" stroke-width="26"/>
+          </g>
+          <path d="M232 94h48" fill="none" stroke="#c9ad78" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand-word">bankbook<span>CAMBODIA</span></div>
+    </div>
+    <div class="lang-pill"><span>EN</span><span class="divider"></span><span class="km">ខ្មែរ</span></div>
+
+    <div class="eyebrow">Cambodia’s commercial bank directory</div>
+    <h1 class="headline">Find your bank.<br><em>Make your next move.</em></h1>
+    <p class="description"><strong>55 banks</strong>, in English and Khmer.<br>Addresses, phone numbers, and the details that matter.</p>
+
+    <div class="stats">
+      <div class="stat"><strong>55</strong><span>Banks</span></div>
+      <div class="stat"><strong>44</strong><span>Local</span></div>
+      <div class="stat"><strong>11</strong><span>Foreign branches</span></div>
+      <div class="date-pill"><i></i>NBC list · 31 Aug 2026</div>
+    </div>
+
+    <div class="art" aria-hidden="true">
+      <div class="art-glow"></div>
+      <div class="art-circle"></div>
+      <div class="mark-tile">
+        <svg viewBox="0 0 512 512">
+          <g fill="none" stroke="#f8f8e9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M94 224 256 120l162 104" stroke-width="30"/>
+            <path d="M118 248h276" stroke-width="26"/>
+            <path d="M150 288v108M220 288v108M292 288v108M362 288v108" stroke-width="26"/>
+            <path d="M126 416h260" stroke-width="26"/>
+          </g>
+          <path d="M232 94h48" fill="none" stroke="#c9ad78" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="spark"></div>
+    </div>
+    <div class="khmer-caption">ព័ត៌មានធនាគារនៅកម្ពុជា</div>
+
+    <div class="footer">
+      <span class="url">tmeta22.github.io/bankbookkh</span>
+      <span>Source: National Bank of Cambodia</span>
+    </div>
+  </div>
+</body>
+</html>

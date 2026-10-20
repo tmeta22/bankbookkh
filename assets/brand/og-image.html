@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bankbook — social card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Kantumruy+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* __FONT_FACES__ */
+    *{box-sizing:border-box}
+    html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#fafbf7}
+    :root{--green:#173f35;--green-dark:#12372e;--soft:#eef2e9;--gold:#ac8c53;--ink:#263e34;--muted:#6f7d70;--line:#dfe5d8;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans','Kantumruy Pro',sans-serif;--khmer:'Kantumruy Pro','DM Sans',sans-serif}
+    .canvas{position:relative;width:1200px;height:630px;overflow:hidden;background:radial-gradient(ellipse at 87% 30%,#eef2e9 0%,rgba(238,242,233,0) 58%),linear-gradient(135deg,#fbfcf8 0%,#f7f8f1 100%);font-family:var(--sans);color:var(--ink)}
+    .canvas:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#173f35 1px,transparent 1px);background-size:26px 26px;opacity:.035;-webkit-mask-image:linear-gradient(90deg,#000 0%,transparent 58%);mask-image:linear-gradient(90deg,#000 0%,transparent 58%)}
+    .topbar{position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#173f35 0 63%,#ac8c53 63% 65%,#e7ecdf 65% 100%)}
+    .brand{position:absolute;left:64px;top:48px;display:flex;align-items:center;gap:14px}
+    .brand-mark{width:54px;height:60px;border-radius:14px;background:linear-gradient(145deg,#1b4a3e,#12372e);display:grid;place-items:center;box-shadow:0 10px 24px rgba(23,63,53,.17)}
+    .brand-mark svg{width:34px;height:34px;display:block}
+    .brand-word{font-size:32px;font-weight:700;letter-spacing:-1.2px;line-height:.95;color:var(--green-dark)}
+    .brand-word span{display:block;font-size:8.5px;font-weight:600;letter-spacing:4.2px;color:#75826f;margin-top:7px;padding-left:1px}
+    .eyebrow{position:absolute;left:65px;top:168px;display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:2.1px;font-weight:700;color:#74836d;text-transform:uppercase}
+    .eyebrow:before{content:"";width:22px;height:1px;background:var(--gold)}
+    .headline{position:absolute;left:60px;top:194px;margin:0;font-family:var(--serif);font-weight:400;font-size:62px;line-height:1.035;letter-spacing:-1.5px;color:var(--green-dark);white-space:nowrap}
+    .headline em{font-style:italic;font-weight:400;color:#6d805e}
+    .description{position:absolute;left:65px;top:348px;width:545px;margin:0;font-size:20px;line-height:1.5;letter-spacing:-.15px;color:#6f7d70}
+    .description strong{color:var(--green);font-weight:600}
+    .stats{position:absolute;left:65px;top:472px;width:570px;display:flex;align-items:flex-start;border-top:1px solid var(--line);padding-top:18px}
+    .stat{padding-right:19px;margin-right:19px;border-right:1px solid var(--line);white-space:nowrap}
+    .stat strong{display:block;font-size:30px;line-height:1;font-weight:600;letter-spacing:-1px;color:var(--green)}
+    .stat span{display:block;font-size:8.5px;line-height:1.4;letter-spacing:1.35px;text-transform:uppercase;color:#7e8a75;margin-top:7px}
+    .date-pill{margin-left:auto;display:flex;align-items:center;gap:7px;background:#eef2e9;border:1px solid #dde5d5;border-radius:999px;padding:9px 14px;font-size:10.5px;font-weight:600;letter-spacing:.3px;color:#4f6553;white-space:nowrap}
+    .date-pill i{width:6px;height:6px;border-radius:50%;background:#819370;display:block}
+    .footer{position:absolute;left:65px;right:64px;bottom:29px;display:flex;align-items:center;gap:15px;font-size:10.5px;color:#8a9286;letter-spacing:.1px;white-space:nowrap}
+    .footer .url{font-weight:600;color:var(--green)}
+    .footer .sep{width:1px;height:11px;background:#cfd7c8}
+    .art{position:absolute;right:36px;top:44px;width:472px;height:542px}
+    .art-glow{position:absolute;right:-14px;top:12px;width:470px;height:470px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 68%)}
+    .art-circle{position:absolute;right:2px;top:30px;width:438px;height:438px;border-radius:50%;background:#e9eddf}
+    .art-circle:before,.art-circle:after{content:"";position:absolute;border:1px solid #d2dac8;border-radius:50%}
+    .art-circle:before{inset:34px}
+    .art-circle:after{inset:70px}
+    .mark-tile{position:absolute;left:138px;top:128px;width:226px;height:242px;border-radius:44px;background:linear-gradient(145deg,#1b4a3e,#12372e);display:grid;place-items:center;transform:rotate(-4deg);box-shadow:0 32px 56px rgba(23,63,53,.23);border:1px solid rgba(255,255,255,.08)}
+    .mark-tile svg{width:142px;height:142px;display:block;transform:rotate(4deg)}
+    .spark{position:absolute;right:74px;top:73px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 8px rgba(172,140,83,.12)}
+    .float-card{position:absolute;background:#fff;border:1px solid #e0e6d8;border-radius:14px;box-shadow:0 18px 40px rgba(23,63,53,.12)}
+    .float-banks{left:-6px;top:78px;width:178px;padding:14px 16px}
+    .float-banks strong{display:block;font-size:30px;font-weight:600;line-height:1;letter-spacing:-1px;color:var(--green)}
+    .float-banks .label{display:block;font-size:8px;line-height:1.4;letter-spacing:1.4px;text-transform:uppercase;color:#7e8a75;margin-top:5px}
+    .float-banks .updated{display:flex;align-items:center;gap:6px;font-size:8.5px;color:#7e8a75;margin-top:10px;padding-top:9px;border-top:1px solid #edf0e7;white-space:nowrap}
+    .float-banks .dot{width:5px;height:5px;border-radius:50%;background:#819370;display:block}
+    .lang-pill{right:4px;bottom:90px;display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:999px;font-size:11.5px;font-weight:600;color:var(--green)}
+    .lang-pill .divider{width:1px;height:13px;background:#dfe5d8}
+    .lang-pill .km{font-family:var(--khmer);font-size:15px;font-weight:500;line-height:1}
+    .khmer-caption{position:absolute;left:20px;right:20px;bottom:22px;text-align:center;font-family:var(--khmer);font-size:18px;font-weight:500;line-height:1.7;color:#50684c;letter-spacing:.1px}
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="topbar"></div>
+    <div class="brand" aria-label="Bankbook Cambodia">
+      <div class="brand-mark">
+        <svg viewBox="0 0 512 512" aria-hidden="true">
+          <g fill="none" stroke="#f8f8e9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M94 224 256 120l162 104" stroke-width="30"/>
+            <path d="M118 248h276" stroke-width="26"/>
+            <path d="M150 288v108M220 288v108M292 288v108M362 288v108" stroke-width="26"/>
+            <path d="M126 416h260" stroke-width="26"/>
+          </g>
+          <path d="M232 94h48" fill="none" stroke="#c9ad78" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand-word">bankbook<span>CAMBODIA</span></div>
+    </div>
+
+    <div class="eyebrow">Cambodia’s commercial bank directory</div>
+    <h1 class="headline">Find your bank.<br><em>Make your next move.</em></h1>
+    <p class="description"><strong>55 banks</strong>, in English and Khmer.<br>Addresses, phone numbers, and the details that matter.</p>
+
+    <div class="stats">
+      <div class="stat"><strong>55</strong><span>Banks</span></div>
+      <div class="stat"><strong>44</strong><span>Local</span></div>
+      <div class="stat"><strong>11</strong><span>Foreign branches</span></div>
+      <div class="date-pill"><i></i>NBC list · 31 Aug 2026</div>
+    </div>
+
+    <div class="footer">
+      <span class="url">tmeta22.github.io/bankbookkh</span>
+      <span class="sep"></span>
+      <span>Source: National Bank of Cambodia</span>
+    </div>
+
+    <div class="art" aria-hidden="true">
+      <div class="art-glow"></div>
+      <div class="art-circle"></div>
+      <div class="mark-tile">
+        <svg viewBox="0 0 512 512">
+          <g fill="none" stroke="#f8f8e9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M94 224 256 120l162 104" stroke-width="30"/>
+            <path d="M118 248h276" stroke-width="26"/>
+            <path d="M150 288v108M220 288v108M292 288v108M362 288v108" stroke-width="26"/>
+            <path d="M126 416h260" stroke-width="26"/>
+          </g>
+          <path d="M232 94h48" fill="none" stroke="#c9ad78" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="spark"></div>
+      <div class="float-card float-banks">
+        <strong>55</strong>
+        <span class="label">Commercial banks</span>
+        <div class="updated"><span class="dot"></span>Updated 31 Aug 2026</div>
+      </div>
+      <div class="float-card lang-pill"><span>EN</span><span class="divider"></span><span class="km">ខ្មែរ</span></div>
+      <div class="khmer-caption">ព័ត៌មានធនាគារនៅកម្ពុជា</div>
+    </div>
+  </div>
+</body>
+</html>

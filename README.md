@@ -16,6 +16,7 @@ A polished, responsive, bilingual frontend for exploring Cambodia's commercial b
 - Click-to-call phone numbers
 - Filter-aware UTF-8 CSV export
 - Full removal history: banks removed from the NBC list stay visible in a dedicated, downloadable history section with last-listed and removal dates
+- Complete icon set (SVG + multi-size ICO/PNG, Apple touch, maskable, Windows tile), installable web manifest, and 1200×630 Open Graph/Twitter artwork
 - Keyboard shortcuts (`/` to search), full accessibility support
 - Responsive: desktop, tablet, mobile
 
@@ -49,13 +50,35 @@ Banks are never silently deleted from the project. When a bank leaves the NBC li
 Removal history is tracked from the 31 May 2026 directory onward, the first CSV-based snapshot in this repository. Older revisions of the NBC list that predate this project's data files are not included.
 
 ## Files
-- `index.html` — semantic application shell and SVG hero illustration
+- `index.html` — semantic application shell, metadata, SVG hero illustration
 - `css/style.css` — design tokens, layouts, cards, dialogs, responsive rules
 - `js/main.js` — data loading, validation, UI rendering, localization, event handling, search, export, persistence
 - `bankbook-cambodia-directory.csv` — active directory data (55 records, 2026-08-31)
 - `bankbook-removal-history.csv` — removed-bank records with last-listed and removal dates
+- `favicon.ico`, `favicon.svg` — legacy and scalable favicons
+- `apple-touch-icon.png` — 180×180 iOS home-screen icon
+- `site.webmanifest` — install metadata, standard and maskable app icons
+- `browserconfig.xml` — Windows tile configuration
+- `og-image.png` — 1200×630 Open Graph/Twitter card
+- `og-square.png` — 1200×1200 square social card
+- `assets/icons/` — 16/32/48/192/512px PNG icons, maskable variants, Safari pinned tab, Windows tile
+- `assets/brand/` — master SVGs, social-card layouts, and the asset build script
 - `tests/smoke.html`, `tests/smoke.js` — browser-based interaction checks
 - `.github/workflows/deploy.yml` — GitHub Pages deployment
+
+## Brand assets
+The favicon, app icons, and social cards share a single bank-mark design in the site's forest green (`#173f35`), ivory (`#f8f8e9`), and gold (`#ac8c53`) palette. Small icons use simplified, thicker geometry so the mark stays legible at 16px.
+
+Social metadata is configured for the live GitHub Pages URL:
+- Canonical/OG URL: `https://tmeta22.github.io/bankbookkh/`
+- Open Graph/Twitter image: `https://tmeta22.github.io/bankbookkh/og-image.png` (1200×630)
+- Square variant for social posts: `og-square.png` (1200×1200)
+
+Rebuild everything after changing the mark or card copy:
+```bash
+node assets/brand/build-assets.js
+```
+The script renders the master SVGs at 512px, downsizes the larger icons with high-quality resampling, writes the multi-size `favicon.ico`, and renders both social cards. It requires Chrome or Edge (set `CHROME_PATH` if it is not in a standard location); on Windows it uses PowerShell/System.Drawing for resizing.
 
 ## Local development
 Serve over HTTP(S) (required for fetch-based data loading):
@@ -66,7 +89,7 @@ python3 -m http.server 8000
 ```
 
 ## Deployment
-Push to `main` branch triggers GitHub Actions workflow to deploy to GitHub Pages.
+Push to `main` branch triggers GitHub Actions workflow to deploy to GitHub Pages. Live site: https://tmeta22.github.io/bankbookkh/
 
 ## Data model
 Directory CSV columns: Bank name (English), Bank name (Khmer), Address, Phone numbers, Type, Directory date  
