@@ -57,7 +57,7 @@
           <h3 data-i18n="bankType">BANK TYPE</h3>
           <div class="filter-options"><button class="filter-button selected" data-filter="all" aria-pressed="true"><span data-icon="grid"></span><span data-i18n="all">All banks</span><span class="filter-count" id="count-all">55</span></button><button class="filter-button" data-filter="local" aria-pressed="false"><span data-icon="building"></span><span data-i18n="localShort">Locally incorporated</span><span class="filter-count" id="count-local">44</span></button><button class="filter-button" data-filter="branch" aria-pressed="false"><span data-icon="globe"></span><span data-i18n="branch">Foreign branches</span><span class="filter-count" id="count-branch">11</span></button></div>
           <div class="saved-filter"><button class="filter-button" id="saved-filter" aria-pressed="false"><span data-icon="bookmark"></span><span data-i18n="saved">Saved banks</span><span class="filter-count" id="sidebar-saved-count">0</span></button></div>
-          <div class="source-note"><span class="source-icon" data-icon="shield"></span><h4 data-i18n="sourceTitle">Know your source</h4><p data-i18n="sourceDescription">Based on the National Bank of Cambodia’s commercial bank list, as cited in the supplied directory.</p><button id="source-button"><span data-i18n="sourceLink">About the data</span> ↗</button></div>
+          <div class="source-note"><span class="source-icon" data-icon="shield"></span><h4 data-i18n="sourceTitle">Know your source</h4><p data-i18n="sourceDescription">Based on the National Bank of Cambodia’s commercial bank list, as cited in the supplied directory.</p><button id="source-button"><span data-i18n="sourceLink">About the data</span> ↗</button><button id="history-button"><span data-i18n="historyLink">Removal history</span> <span class="source-count" id="history-nav-count">0</span> ↓</button></div>
         </aside>
         <div class="results-panel">
           <div class="search-wrap"><span data-icon="search"></span><label for="search-input" class="sr-only">Search bank names, addresses or phone numbers</label><input id="search-input" type="search" placeholder="Search by bank name or address…" autocomplete="off"><button id="clear-search" aria-label="Clear search" hidden>×</button><kbd>/</kbd></div>
@@ -68,6 +68,10 @@
           <div class="pagination" id="pagination"><span id="page-summary"></span><div id="page-buttons"></div></div>
         </div>
       </div>
+    </section>
+    <section id="history" class="history container" aria-labelledby="history-title" hidden>
+      <div class="section-heading"><div><p class="eyebrow" data-i18n="historyEyebrow">DIRECTORY HISTORY</p><h2 id="history-title" data-i18n="historyTitle">Removed banks</h2><p data-i18n="historyDescription">Banks no longer in the NBC list, kept here for transparency. They are not part of the active directory.</p></div><div class="history-actions"><span class="history-count" id="history-count">0</span><a class="outline-button" href="bankbook-removal-history.csv" download><span data-icon="download"></span><span data-i18n="downloadHistory">Download history</span></a></div></div>
+      <div class="history-list" id="history-list" aria-live="polite"></div>
     </section>
     <section class="bottom-note container"><span data-icon="info"></span><p data-i18n="disclaimer">A helpful starting point, not financial advice. Please confirm contact details and services directly with your bank.</p><a href="#" data-i18n="backTop">Back to top ↑</a></section>
   </main>

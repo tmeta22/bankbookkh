@@ -25,10 +25,10 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } }
 };
 const initialSaved = storage.get('bankbook-saved', []);
-const state = { banks: [], query: '', filter: 'all', savedOnly: false, saved: new Set(Array.isArray(initialSaved) ? initialSaved.filter(Number.isInteger) : []), sort: 'az', view: 'grid', page: 1, pageSize: 12, lang: storage.get('bankbook-language', 'en') === 'km' ? 'km' : 'en' };
+const state = { banks: [], history: [], query: '', filter: 'all', savedOnly: false, saved: new Set(Array.isArray(initialSaved) ? initialSaved.filter(Number.isInteger) : []), sort: 'az', view: 'grid', page: 1, pageSize: 12, lang: storage.get('bankbook-language', 'en') === 'km' ? 'km' : 'en' };
 const english = {};
 const khmer = {
-  directory:'បញ្ជីធនាគារ', saved:'ធនាគារបានរក្សាទុក', about:'អំពីបញ្ជីនេះ ↗', eyebrow:'ព័ត៌មានធនាគារនៅកម្ពុជា', hero:'ស្វែងរកធនាគាររបស់អ្នក។<br><em>ឆ្ពោះទៅជំហានបន្ទាប់។</em>', description:'ស្វែងយល់អំពីធនាគារពាណិជ្ជនៅកម្ពុជា។<br>ស្វែងរកព័ត៌មាន និងទំនាក់ទំនងដែលអ្នកត្រូវការ។', explore:'ស្វែងរកធនាគារ', commercial:'ធនាគារពាណិជ្ជ', local:'បង្កើតឡើងក្នុងស្រុក', localShort:'បង្កើតឡើងក្នុងស្រុក', branch:'សាខាធនាគារបរទេស', asof:'ព័ត៌មានគិតត្រឹម', exploreLabel:'បញ្ជីធនាគារ', allBanks:'ធនាគារពាណិជ្ជទាំងអស់', directoryDescription:'ព័ត៌មានដែលអ្នកត្រូវការ នៅកន្លែងតែមួយ។', download:'ទាញយកបញ្ជី', bankType:'ប្រភេទធនាគារ', all:'ធនាគារទាំងអស់', sourceTitle:'ប្រភពព័ត៌មាន', sourceDescription:'ផ្អែកលើបញ្ជីធនាគារពាណិជ្ជរបស់ធនាគារជាតិនៃកម្ពុជា ដូចបានដកស្រង់ក្នុងឯកសារដើម។', sourceLink:'អំពីទិន្នន័យ', sort:'តម្រៀបតាម៖', noResults:'រកមិនឃើញធនាគារ', noResultsHint:'សាកល្បងឈ្មោះ ឬអាសយដ្ឋានផ្សេងទៀត ឬសម្អាតតម្រង។', reset:'កំណត់តម្រងឡើងវិញ', disclaimer:'សម្រាប់ជាព័ត៌មាន មិនមែនជាដំបូន្មានហិរញ្ញវត្ថុទេ។ សូមបញ្ជាក់ព័ត៌មានទំនាក់ទំនង និងសេវាកម្មដោយផ្ទាល់ជាមួយធនាគារ។', backTop:'ទៅខាងលើ ↑', footerText:'បង្កើតទំនាក់ទំនងកាន់តែប្រសើរ។<br>មគ្គុទ្ទេសក៍ឯករាជ្យអំពីធនាគារនៅកម្ពុជា។'
+  directory:'បញ្ជីធនាគារ', saved:'ធនាគារបានរក្សាទុក', about:'អំពីបញ្ជីនេះ ↗', eyebrow:'ព័ត៌មានធនាគារនៅកម្ពុជា', hero:'ស្វែងរកធនាគាររបស់អ្នក។<br><em>ឆ្ពោះទៅជំហានបន្ទាប់។</em>', description:'ស្វែងយល់អំពីធនាគារពាណិជ្ជនៅកម្ពុជា។<br>ស្វែងរកព័ត៌មាន និងទំនាក់ទំនងដែលអ្នកត្រូវការ។', explore:'ស្វែងរកធនាគារ', commercial:'ធនាគារពាណិជ្ជ', local:'បង្កើតឡើងក្នុងស្រុក', localShort:'បង្កើតឡើងក្នុងស្រុក', branch:'សាខាធនាគារបរទេស', asof:'ព័ត៌មានគិតត្រឹម', exploreLabel:'បញ្ជីធនាគារ', allBanks:'ធនាគារពាណិជ្ជទាំងអស់', directoryDescription:'ព័ត៌មានដែលអ្នកត្រូវការ នៅកន្លែងតែមួយ។', download:'ទាញយកបញ្ជី', bankType:'ប្រភេទធនាគារ', all:'ធនាគារទាំងអស់', sourceTitle:'ប្រភពព័ត៌មាន', sourceDescription:'ផ្អែកលើបញ្ជីធនាគារពាណិជ្ជរបស់ធនាគារជាតិនៃកម្ពុជា ដូចបានដកស្រង់ក្នុងឯកសារដើម។', sourceLink:'អំពីទិន្នន័យ', sort:'តម្រៀបតាម៖', noResults:'រកមិនឃើញធនាគារ', noResultsHint:'សាកល្បងឈ្មោះ ឬអាសយដ្ឋានផ្សេងទៀត ឬសម្អាតតម្រង។', reset:'កំណត់តម្រងឡើងវិញ', disclaimer:'សម្រាប់ជាព័ត៌មាន មិនមែនជាដំបូន្មានហិរញ្ញវត្ថុទេ។ សូមបញ្ជាក់ព័ត៌មានទំនាក់ទំនង និងសេវាកម្មដោយផ្ទាល់ជាមួយធនាគារ។', backTop:'ទៅខាងលើ ↑', footerText:'បង្កើតទំនាក់ទំនងកាន់តែប្រសើរ។<br>មគ្គុទ្ទេសក៍ឯករាជ្យអំពីធនាគារនៅកម្ពុជា។', historyEyebrow:'ប្រវត្តិបញ្ជី', historyTitle:'ធនាគារដែលបានដកចេញ', historyDescription:'ធនាគារដែលលែងមានក្នុងបញ្ជីធនាគារជាតិ ត្រូវបានរក្សាទុកនៅទីនេះសម្រាប់តម្លាភាព។ ពួកវាមិនមែនជាផ្នែកនៃបញ្ជីបច្ចុប្បន្នទេ។', historyLink:'ប្រវត្តិការដកចេញ', downloadHistory:'ទាញយកប្រវត្តិ', lastListed:'ចុងក្រោយក្នុងបញ្ជី'
 };
 const text = (en, km) => state.lang === 'km' ? km : en;
 const typeLabel = type => type === 'local' ? text('Locally incorporated', 'បង្កើតឡើងក្នុងស្រុក') : text('Foreign branch', 'សាខាធនាគារបរទេស');
@@ -135,6 +135,32 @@ function exportCsv() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   notify(text(`Exported ${rows.length - 1} banks`, `បានទាញយក ${rows.length - 1} ធនាគារ`));
 }
+function parseDirectoryRows(csvText) {
+  const lines = csvText.replace(/^\uFEFF/, '').trim().split('\n');
+  return lines.slice(1).map(line => {
+    const values = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          current += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        values.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    values.push(current.trim());
+    return values;
+  });
+}
 async function loadBanks() {
   $('#load-error').hidden = true;
   $('#empty-state').hidden = true;
@@ -143,32 +169,7 @@ async function loadBanks() {
   try {
     const response = await fetch('bankbook-cambodia-directory.csv');
     if (!response.ok) throw new Error(`Directory request failed (${response.status})`);
-    const csvText = await response.text();
-    const lines = csvText.trim().split('\n');
-    const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
-    const rows = lines.slice(1).map(line => {
-      const values = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-          if (inQuotes && line[i + 1] === '"') {
-            current += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (char === ',' && !inQuotes) {
-          values.push(current.trim());
-          current = '';
-        } else {
-          current += char;
-        }
-      }
-      values.push(current.trim());
-      return values;
-    });
+    const rows = parseDirectoryRows(await response.text());
     state.banks = rows.map((row, id) => ({
       id,
       name: row[0].replace(/^"|"$/g, ''),
@@ -192,6 +193,33 @@ async function loadBanks() {
     $('#download-button').disabled = true;
   }
 }
+function formatDate(iso) {
+  if (!iso) return '';
+  const date = new Date(iso + 'T00:00:00Z');
+  return Number.isNaN(date.getTime()) ? iso : date.toLocaleDateString(state.lang === 'km' ? 'km-KH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
+function historyMarkup(bank) {
+  const firstPhone = bank.phone.split('/')[0].trim();
+  return `<article class="history-item"><div class="history-top"><div><h3>${escapeHtml(displayName(bank.name))}</h3><p class="bank-km" lang="km">${escapeHtml(bank.km)}</p></div><span class="history-removed">${text('Removed', 'បានដកចេញ')}<br>${escapeHtml(formatDate(bank.removed))}</span></div><div class="history-meta"><span class="type-badge ${bank.type}">${typeLabel(bank.type)}</span><span class="history-listed">${text('Last listed', 'ចុងក្រោយក្នុងបញ្ជី')} ${escapeHtml(formatDate(bank.lastListed))}</span></div><div class="card-address">${icon('pin')}<p>${escapeHtml(bank.address)}</p></div><a class="card-phone" href="tel:${firstPhone.split('-')[0].replace(/[^\d+]/g, '')}">${icon('phone')}${escapeHtml(firstPhone)}</a></article>`;
+}
+function renderHistory() {
+  if (!state.history.length) { $('#history').hidden = true; return; }
+  $('#history').hidden = false;
+  $('#history-count').textContent = state.history.length;
+  $('#history-nav-count').textContent = state.history.length;
+  $('#history-list').innerHTML = state.history.slice().sort((a, b) => b.removed.localeCompare(a.removed) || a.name.localeCompare(b.name)).map(historyMarkup).join('');
+}
+async function loadHistory() {
+  try {
+    const response = await fetch('bankbook-removal-history.csv');
+    if (!response.ok) throw new Error(`Removal history request failed (${response.status})`);
+    state.history = parseDirectoryRows(await response.text()).map(row => ({ name: row[0], km: row[1], address: row[2], phone: row[3], type: row[4] === 'Locally Incorporated' ? 'local' : 'branch', lastListed: row[5], removed: row[6] }));
+    renderHistory();
+  } catch (error) {
+    console.error('Bankbook removal history:', error.message);
+    $('#history').hidden = true;
+  }
+}
 $$('[data-icon]').forEach(el => el.innerHTML = icon(el.dataset.icon));
 applyLanguage();
 $('#search-input').addEventListener('input', event => { state.query = event.target.value; state.page = 1; render(); });
@@ -205,7 +233,7 @@ $('a.nav-link').addEventListener('click', () => { state.savedOnly = false; state
 $('#reset-filters').addEventListener('click', () => { state.query = ''; state.filter = 'all'; state.savedOnly = false; state.page = 1; $('#search-input').value = ''; render(); });
 $('#grid-view').addEventListener('click', () => { state.view = 'grid'; render(); });
 $('#list-view').addEventListener('click', () => { state.view = 'list'; render(); });
-$('#language-button').addEventListener('click', () => { state.lang = state.lang === 'en' ? 'km' : 'en'; storage.set('bankbook-language', state.lang); applyLanguage(); if (state.banks.length) render(); });
+$('#language-button').addEventListener('click', () => { state.lang = state.lang === 'en' ? 'km' : 'en'; storage.set('bankbook-language', state.lang); applyLanguage(); if (state.banks.length) render(); if (state.history.length) renderHistory(); });
 $('#bank-grid').addEventListener('click', event => {
   const save = event.target.closest('[data-save]');
   const details = event.target.closest('[data-details]');
@@ -219,7 +247,9 @@ $('#bank-dialog').addEventListener('click', event => { if (event.target !== $('#
 $('#bank-dialog').addEventListener('close', () => { document.body.style.overflow = ''; if (dialogOpener?.isConnected) dialogOpener.focus({preventScroll:true}); });
 $('#about-button').addEventListener('click', showAbout);
 $('#source-button').addEventListener('click', showAbout);
+$('#history-button').addEventListener('click', () => $('#history').scrollIntoView({behavior:'smooth'}));
 $('#download-button').addEventListener('click', exportCsv);
 $('#retry-button').addEventListener('click', loadBanks);
 document.addEventListener('keydown', event => { if (event.key === '/' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName) && !$('#bank-dialog').open) { event.preventDefault(); $('#search-input').focus(); $('#search-input').scrollIntoView({behavior:'smooth',block:'center'}); } });
 loadBanks();
+loadHistory();

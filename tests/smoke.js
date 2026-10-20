@@ -8,6 +8,7 @@ async function runTests() {
   let doc;
   try {
     for (let i = 0; i < 100; i++) { doc = frame.contentDocument; if (doc?.querySelector('.bank-card')) break; await delay(200); }
+    for (let i = 0; i < 50 && !doc.querySelector('.history-item'); i++) await delay(100);
     const $ = selector => doc.querySelector(selector);
     const $$ = selector => [...doc.querySelectorAll(selector)];
     const click = selector => $(selector).click();
@@ -17,6 +18,8 @@ async function runTests() {
     if (wasKhmer) click('#language-button');
     check($$('.bank-card').length === 12 && result().includes('55'), 'All 55 source records load, 12 cards on first page');
     check($('#local-stat').textContent === '44' && $('#branch-stat').textContent === '11', 'Category totals calculated from source');
+    check(!$('#history').hidden && $$('.history-item').length === 3 && $('#history-count').textContent === '3', 'Removal history lists all 3 removed banks');
+    check($('#history-list').textContent.includes('CCU Commercial Bank') && $('#history-list').textContent.includes('31 August 2026'), 'Removal history keeps full records and removal dates');
     check($('.bank-card h3').textContent.includes('ACLEDA'), 'Default alphabetical sorting');
     click('[data-filter="local"]'); check(result().includes('44') && $$('.type-badge').every(el => el.classList.contains('local')), 'Local filter returns 44 local banks');
     click('[data-filter="branch"]'); check(result().includes('11') && $$('.bank-card').length === 11, 'Foreign branch filter returns 11 banks');
@@ -40,7 +43,7 @@ async function runTests() {
     click('[data-details]'); check($('#bank-dialog').open && $('#dialog-title').textContent.includes('ACLEDA'), 'Details modal opens for selected bank');
     check($('#dialog-content').textContent.includes('Building No. 61') && $('#dialog-content a[href^="tel:"]') && $('#dialog-content a[href^="https://www.google.com/maps/"]'), 'Modal includes full source address, dialable contact, and map link');
     click('#close-dialog'); check(!$('#bank-dialog').open, 'Modal closes');
-    click('#language-button'); check(doc.documentElement.lang === 'km' && $('#directory-title').textContent.includes('ធនាគារ'), 'Khmer interface toggle');
+    click('#language-button'); check(doc.documentElement.lang === 'km' && $('#directory-title').textContent.includes('ធនាគារ') && $('#history-title').textContent.includes('ដកចេញ'), 'Khmer interface toggle');
     click('#language-button'); check(doc.documentElement.lang === 'en', 'English interface toggle');
     const win = frame.contentWindow;
     let exportBlob;
@@ -58,7 +61,7 @@ async function runTests() {
     click('#close-dialog');
     check(doc.documentElement.scrollWidth <= doc.documentElement.clientWidth + 1, 'No horizontal overflow at test viewport');
     if (wasKhmer) click('#language-button');
-    output.dataset.complete = 'true'; lines.push('\nAll 26 interaction checks passed.'); output.textContent = lines.join('\n'); console.log('ALL INTERACTION CHECKS PASSED');
+    output.dataset.complete = 'true'; lines.push(`\nAll ${lines.filter(line => line.startsWith('PASS')).length} interaction checks passed.`); output.textContent = lines.join('\n'); console.log('ALL INTERACTION CHECKS PASSED');
   } catch (error) { output.dataset.failed = 'true'; output.textContent += '\nFAIL: ' + error.message; console.error('TEST FAILURE:', error.message); }
 }
 runTests();

@@ -15,6 +15,7 @@ A polished, responsive, bilingual frontend for exploring Cambodia's commercial b
 - Accessible detail dialogs: address, phone, Google Maps link, save action
 - Click-to-call phone numbers
 - Filter-aware UTF-8 CSV export
+- Full removal history: banks removed from the NBC list stay visible in a dedicated, downloadable history section with last-listed and removal dates
 - Keyboard shortcuts (`/` to search), full accessibility support
 - Responsive: desktop, tablet, mobile
 
@@ -34,12 +35,25 @@ The August 2026 NBC export refreshes the official Khmer legal names and expands 
 - Removed three banks no longer present in the NBC list: CCU Commercial Bank PLC., Heng Feng (Cambodia) Bank PLC., and HH Bank (Cambodia) PLC.
 - Confirmed the remaining 55 banks, their addresses, and phone numbers; the directory date is now 31 August 2026.
 - Recalculated the totals shown in the interface (55 total / 44 local / 11 foreign branches) and refreshed all UI/export date references.
+- Added a removal history section and `bankbook-removal-history.csv` so banks that leave the NBC list remain documented with their last-listed and removal dates.
+
+## Removal history
+Banks are never silently deleted from the project. When a bank leaves the NBC list, its record is moved to `bankbook-removal-history.csv` and shown in the **Removed banks** section at the bottom of the directory. The history is also downloadable from that section.
+
+| Bank | Type | Last listed | Removed |
+| --- | --- | --- | --- |
+| CCU Commercial Bank PLC. | Locally incorporated | 31 May 2026 | 31 August 2026 |
+| Heng Feng (Cambodia) Bank PLC. | Locally incorporated | 31 May 2026 | 31 August 2026 |
+| HH Bank (Cambodia) PLC. | Locally incorporated | 31 May 2026 | 31 August 2026 |
+
+Removal history is tracked from the 31 May 2026 directory onward, the first CSV-based snapshot in this repository. Older revisions of the NBC list that predate this project's data files are not included.
 
 ## Files
 - `index.html` — semantic application shell and SVG hero illustration
 - `css/style.css` — design tokens, layouts, cards, dialogs, responsive rules
 - `js/main.js` — data loading, validation, UI rendering, localization, event handling, search, export, persistence
-- `bankbook-cambodia-directory.csv` — source data (55 records, 2026-08-31)
+- `bankbook-cambodia-directory.csv` — active directory data (55 records, 2026-08-31)
+- `bankbook-removal-history.csv` — removed-bank records with last-listed and removal dates
 - `tests/smoke.html`, `tests/smoke.js` — browser-based interaction checks
 - `.github/workflows/deploy.yml` — GitHub Pages deployment
 
@@ -58,6 +72,8 @@ Push to `main` branch triggers GitHub Actions workflow to deploy to GitHub Pages
 Directory CSV columns: Bank name (English), Bank name (Khmer), Address, Phone numbers, Type, Directory date  
 Runtime object: `{id, name, km, address, phone, type}` where `type` is `"local"` or `"branch"` and `id` is the 0-based directory index.
 
+Removal history CSV columns: Bank name (English), Bank name (Khmer), Address, Phone numbers, Type, Last listed, Removed date. Runtime object: `{name, km, address, phone, type, lastListed, removed}`.
+
 The NBC export also includes Khmer-language addresses; the application currently displays the English address and the official Khmer bank name.
 
 ## localStorage keys
@@ -69,6 +85,7 @@ The NBC export also includes Khmer-language addresses; the application currently
 - All addresses are in Phnom Penh (not a retail branch/ATM locator)
 - Initial badges are directory identifiers, not official bank logos
 - Saved banks are browser/device local only and use directory indices, so a future data refresh may shift which bank a saved index refers to
+- Removal history covers banks removed since the 31 May 2026 CSV snapshot; earlier NBC revisions are not tracked
 - No backend, analytics, or external tracking
 
 ## License
