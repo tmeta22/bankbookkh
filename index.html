@@ -43,6 +43,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=DM+Serif+Display:ital@0;1&family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js" defer></script>
+  <script src="js/sources.js" defer></script>
 </head>
 <body>
   <a href="#directory" class="skip-link">Skip to directory</a>
@@ -55,7 +56,7 @@
   </header>
   <main>
     <section class="hero container" aria-labelledby="hero-title">
-      <div class="hero-copy"><p class="eyebrow"><span></span><span data-i18n="eyebrow">A clearer view of banking in Cambodia</span></p><h1 id="hero-title" data-i18n="hero">Find your bank.<br><em>Make your next move.</em></h1><p class="hero-khmer" lang="km">បញ្ជីធនាគារពាណិជ្ជនៅកម្ពុជា</p><p class="hero-description" data-i18n="description">Your guide to Cambodia’s commercial banks.<br>Explore, connect, and find the details that matter.</p><a href="#directory" class="hero-link"><span data-i18n="explore">Explore the directory</span><span>↓</span></a></div>
+      <div class="hero-copy"><p class="eyebrow"><span></span><span data-i18n="eyebrow">A clearer view of banking in Cambodia</span></p><h1 id="hero-title" data-i18n="hero">Find your bank.<br><em>Make your next move.</em></h1><p class="hero-khmer" lang="km">បញ្ជីធនាគារពាណិជ្ជនៅកម្ពុជា</p><p class="hero-description" data-i18n="description">Your guide to Cambodia’s commercial banks.<br>Explore, connect, and find the details that matter.</p><a href="#directory" class="hero-link"><span data-i18n="explore">Explore the directory</span><span>↓</span></a> <a href="#nbc-sources" class="hero-link">More regulated entities <span>↓</span></a></div>
       <div class="hero-art" aria-hidden="true">
         <svg viewBox="0 0 460 310" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="250" cy="153" r="140" fill="#E9EBDD"/><circle cx="250" cy="153" r="113" stroke="#D4DBCC"/><circle cx="250" cy="153" r="86" stroke="#D4DBCC"/>
@@ -100,6 +101,13 @@
           <div class="pagination" id="pagination"><span id="page-summary"></span><div id="page-buttons"></div></div>
         </div>
       </div>
+    </section>
+    <section id="nbc-sources" class="nbc-sources container" aria-labelledby="nbc-sources-title">
+      <div class="section-heading"><div><h2 id="nbc-sources-title">More regulated entities</h2><p>Search the supplied NBC source documents for institutions, addresses and contacts.</p></div><a class="outline-button" href="data/nbc-source-pages.csv" download>Download source text CSV</a></div>
+      <p class="nbc-source-notice">Source dates vary. Search uses extracted PDF text and may miss matches, especially in Khmer. Open the original PDF to verify details.</p>
+      <div class="search-wrap"><label for="source-search" class="sr-only">Search NBC documents</label><input id="source-search" type="search" placeholder="Search NBC documents by name or address…" autocomplete="off"></div>
+      <p id="source-results-status" class="nbc-source-status" aria-live="polite">Loading documents…</p>
+      <div id="source-results" class="nbc-source-list"></div>
     </section>
     <section id="history" class="history container" aria-labelledby="history-title" hidden>
       <div class="section-heading"><div><p class="eyebrow" data-i18n="historyEyebrow">DIRECTORY HISTORY</p><h2 id="history-title" data-i18n="historyTitle">Removed banks</h2><p data-i18n="historyDescription">Banks no longer in the NBC list, kept here for transparency. They are not part of the active directory.</p></div><div class="history-actions"><span class="history-count" id="history-count">0</span><a class="outline-button" href="bankbook-removal-history.csv" download><span data-icon="download"></span><span data-i18n="downloadHistory">Download history</span></a></div></div>
