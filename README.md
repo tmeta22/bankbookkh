@@ -29,6 +29,20 @@ The August 2026 NBC export refreshes the official Khmer legal names and expands 
 
 *This data has not been independently verified. This site is not affiliated with or endorsed by the NBC.*
 
+### Additional NBC source documents
+
+The supplied supervision PDFs are preserved in `data/nbc-sources/`. Their
+searchable, page-by-page text is also available in `data/nbc-source-pages.csv`,
+with the category, source filename, source date, and page number. This is a
+source-text export, not a directory of individual institutions: PDF extraction
+can disrupt column order and Khmer characters, so consult the original PDFs.
+The sources are dated 31 May 2026, 17 March 2025, or 20 August 2024 as recorded
+in the CSV. The foreign-exchange documents are lists of licensed operators, not
+the general commercial-bank list. The existing commercial-bank directory is
+unchanged. The app offers a separate search over extracted pages and links to the
+original PDFs. These categories have not been parsed into institution records or
+integrated into the commercial-bank filters; extraction can miss matches.
+
 ## Data updates
 ### 31 August 2026
 - Refreshed the directory from the NBC `Commercial_Banks.csv` export.
