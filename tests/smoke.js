@@ -66,6 +66,14 @@ async function runTests() {
     click('#reset-filters');
     click('#about-button'); check($('#bank-dialog').open && $('#dialog-content').textContent.includes('not been independently verified'), 'Source panel accurately discloses attribution and verification status');
     click('#close-dialog');
+    for (let i = 0; i < 50 && !doc.querySelector('#source-results .nbc-institution'); i++) await delay(100);
+    check($$('#source-results .nbc-institution').length === 24 && $('#source-results-status').textContent.includes('266'), 'NBC supervision lists load as searchable records');
+    check($$('#source-categories .nbc-chip').length === 13 && $('#source-categories').textContent.includes('Rural credit institutions'), 'Every NBC list is offered as a filter with counts');
+    const sourceSearch = value => { $('#source-search').value = value; $('#source-search').dispatchEvent(new Event('input', {bubbles:true})); };
+    sourceSearch('KAMPUCHEA'); check($$('#source-results .nbc-institution').length === 1 && $('#source-results').textContent.includes('KAMPUCHEA'), 'NBC records are searchable by institution name');
+    sourceSearch('023 231 567'); check($$('#source-results .nbc-institution').length >= 1 && $('#source-results').textContent.includes('GROW MICROFINANCE'), 'NBC records are searchable by contact number');
+    sourceSearch(''); check($$('#source-results .nbc-institution').length === 24, 'Clearing the NBC search restores the record list');
+    check(!!$('#source-results .nbc-institution-source') && $('#source-results .nbc-institution-source').getAttribute('href').includes('data/nbc-sources/'), 'Each record links back to its source PDF page');
     check(doc.documentElement.scrollWidth <= doc.documentElement.clientWidth + 1, 'No horizontal overflow at test viewport');
     if (wasKhmer) click('#language-button');
     output.dataset.complete = 'true'; lines.push(`\nAll ${lines.filter(line => line.startsWith('PASS')).length} interaction checks passed.`); output.textContent = lines.join('\n'); console.log('ALL INTERACTION CHECKS PASSED');

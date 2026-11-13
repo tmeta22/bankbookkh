@@ -103,11 +103,16 @@
       </div>
     </section>
     <section id="nbc-sources" class="nbc-sources container" aria-labelledby="nbc-sources-title">
-      <div class="section-heading"><div><h2 id="nbc-sources-title">More regulated entities</h2><p>Search the supplied NBC source documents for institutions, addresses and contacts.</p></div><a class="outline-button" href="data/nbc-source-pages.csv" download>Download source text CSV</a></div>
-      <p class="nbc-source-notice">Source dates vary. Search uses extracted PDF text and may miss matches, especially in Khmer. Open the original PDF to verify details.</p>
-      <div class="search-wrap"><label for="source-search" class="sr-only">Search NBC documents</label><input id="source-search" type="search" placeholder="Search NBC documents by name or address…" autocomplete="off"></div>
-      <p id="source-results-status" class="nbc-source-status" aria-live="polite">Loading documents…</p>
+      <div class="section-heading"><div><p class="eyebrow" id="nbc-eyebrow">NBC supervision lists</p><h2 id="nbc-sources-title">More regulated entities</h2><p id="nbc-description">Search the National Bank of Cambodia supervision lists: microfinance institutions, rural credit institutions, leasing companies, audit firms and more.</p></div><div class="nbc-source-actions"><a class="outline-button" href="data/nbc-institutions.csv" download><span data-icon="download"></span><span id="nbc-download-records">Download records</span></a><a class="outline-button" href="data/nbc-source-pages.csv" download><span data-icon="download"></span><span id="nbc-download-pages">Page text CSV</span></a></div></div>
+      <p class="nbc-source-notice" id="nbc-notice">Source dates vary by list. Addresses and contacts are transcribed from the NBC PDFs; check the original document before relying on a detail.</p>
+      <div class="nbc-source-toolbar">
+        <div class="search-wrap"><span data-icon="search"></span><label for="source-search" class="sr-only" id="nbc-search-label">Search NBC institutions</label><input id="source-search" type="search" placeholder="Search by institution, address or phone…" autocomplete="off"><button id="source-clear" aria-label="Clear search" hidden>×</button></div>
+        <div id="source-mode" class="nbc-mode" role="group" aria-label="Search mode"><button data-mode="records" class="selected" aria-pressed="true" id="nbc-records-tab">Institutions</button><button data-mode="pages" aria-pressed="false" id="nbc-pages-tab">Page text</button></div>
+      </div>
+      <div id="source-categories" class="nbc-chips" role="group" aria-label="Filter by source list"></div>
+      <p id="source-results-status" class="nbc-source-status" aria-live="polite">Loading records…</p>
       <div id="source-results" class="nbc-source-list"></div>
+      <div class="nbc-source-more"><button id="source-more" class="outline-button" hidden>Show more</button></div>
     </section>
     <section id="history" class="history container" aria-labelledby="history-title" hidden>
       <div class="section-heading"><div><p class="eyebrow" data-i18n="historyEyebrow">DIRECTORY HISTORY</p><h2 id="history-title" data-i18n="historyTitle">Removed banks</h2><p data-i18n="historyDescription">Banks no longer in the NBC list, kept here for transparency. They are not part of the active directory.</p></div><div class="history-actions"><span class="history-count" id="history-count">0</span><a class="outline-button" href="bankbook-removal-history.csv" download><span data-icon="download"></span><span data-i18n="downloadHistory">Download history</span></a></div></div>
