@@ -233,7 +233,7 @@ $('a.nav-link').addEventListener('click', () => { state.savedOnly = false; state
 $('#reset-filters').addEventListener('click', () => { state.query = ''; state.filter = 'all'; state.savedOnly = false; state.page = 1; $('#search-input').value = ''; render(); });
 $('#grid-view').addEventListener('click', () => { state.view = 'grid'; render(); });
 $('#list-view').addEventListener('click', () => { state.view = 'list'; render(); });
-$('#language-button').addEventListener('click', () => { state.lang = state.lang === 'en' ? 'km' : 'en'; storage.set('bankbook-language', state.lang); applyLanguage(); if (state.banks.length) render(); if (state.history.length) renderHistory(); });
+$('#language-button').addEventListener('click', () => { state.lang = state.lang === 'en' ? 'km' : 'en'; storage.set('bankbook-language', state.lang); applyLanguage(); if (state.banks.length) render(); if (state.history.length) renderHistory(); document.dispatchEvent(new CustomEvent('bankbook:language', { detail: state.lang })); });
 $('#bank-grid').addEventListener('click', event => {
   const save = event.target.closest('[data-save]');
   const details = event.target.closest('[data-details]');

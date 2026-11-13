@@ -1,0 +1,16 @@
+{
+  "name": "bankbook-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build-time tooling for Bankbook: parses the NBC source PDFs into searchable institution records and runs the browser checks.",
+  "type": "module",
+  "scripts": {
+    "extract": "node extract-nbc-institutions.mjs",
+    "check": "node check-site.mjs",
+    "smoke": "node run-smoke.mjs"
+  },
+  "devDependencies": {
+    "pdfjs-dist": "4.10.38",
+    "puppeteer-core": "24.31.0"
+  }
+}

@@ -16,6 +16,7 @@ A polished, responsive, bilingual frontend for exploring Cambodia's commercial b
 - Click-to-call phone numbers
 - Filter-aware UTF-8 CSV export
 - Full removal history: banks removed from the NBC list stay visible in a dedicated, downloadable history section with last-listed and removal dates
+- Searchable NBC supervision lists: 266 records from 12 source documents (microfinance institutions, rural credit institutions, leasing companies, audit firms, foreign-exchange licensees and more) with names, addresses and contacts, filterable by list and linked back to the source PDF page
 - Complete icon set (SVG + multi-size ICO/PNG, Apple touch, maskable, Windows tile), installable web manifest, and 1200×630 Open Graph/Twitter artwork
 - Keyboard shortcuts (`/` to search), full accessibility support
 - Responsive: desktop, tablet, mobile
@@ -31,19 +32,46 @@ The August 2026 NBC export refreshes the official Khmer legal names and expands 
 
 ### Additional NBC source documents
 
-The supplied supervision PDFs are preserved in `data/nbc-sources/`. Their
-searchable, page-by-page text is also available in `data/nbc-source-pages.csv`,
-with the category, source filename, source date, and page number. This is a
-source-text export, not a directory of individual institutions: PDF extraction
-can disrupt column order and Khmer characters, so consult the original PDFs.
-The sources are dated 31 May 2026, 17 March 2025, or 20 August 2024 as recorded
-in the CSV. The foreign-exchange documents are lists of licensed operators, not
-the general commercial-bank list. The existing commercial-bank directory is
-unchanged. The app offers a separate search over extracted pages and links to the
-original PDFs. These categories have not been parsed into institution records or
-integrated into the commercial-bank filters; extraction can miss matches.
+The supplied supervision PDFs are preserved in `data/nbc-sources/`. They are
+tables, so `tools/extract-nbc-institutions.mjs` reads them by position rather
+than by text: every text run is placed by its x/y coordinate, grouped into
+rows, and assigned to a column using the table grid measured from the source
+documents. The result is `data/nbc-institutions.json` (and the matching
+`data/nbc-institutions.csv`), 266 institution records with an English name, a
+Khmer name, an address, a Khmer address, a contact number, the source list,
+the source date, and the page the record came from.
+
+The site searches those records as data: filter by list, search by name, Khmer
+name, address, Khmer address, or contact number, and open the original PDF page
+from any result. Khmer search also matches a space-free form of the name,
+because PDF extraction breaks Khmer words at unpredictable points.
+
+The raw page-by-page text is still available in `data/nbc-source-pages.csv`,
+and the **Page text** mode in the same section searches it. Use that mode to
+find wording the table parse could not attribute to a record. The sources are
+dated 31 May 2026, 17 March 2025, or 20 August 2024 as recorded in the data.
+The foreign-exchange documents are lists of licensed operators, not the general
+commercial-bank list, and they are dated 20 August 2024. The commercial-bank
+directory is unchanged: these lists are a separate section and are not mixed
+into the 55-bank filters. Extraction can still mis-associate a name with an
+address in a few rows, so check the original document before relying on a
+detail.
 
 ## Data updates
+### NBC supervision lists
+- Parsed the 12 NBC supervision PDFs in `data/nbc-sources/` into 266 institution
+  records (`data/nbc-institutions.json`, `data/nbc-institutions.csv`) by reading
+  the tables positionally, so names, Khmer names, addresses and contact numbers
+  are searchable as data instead of only as links into the PDFs.
+- Rebuilt the "More regulated entities" section as a searchable directory:
+  filter chips per source list with counts, search across names, Khmer names,
+  addresses and phone numbers, "Show more" paging, and a link from every
+  record to its page in the original PDF.
+- Khmer search matches a space-free form of the name, so it still finds
+  records when PDF extraction breaks a Khmer word.
+- Kept the raw page-text search as a "Page text" mode in the same section for
+  wording the table parse could not attribute to a record.
+
 ### 31 August 2026
 - Refreshed the directory from the NBC `Commercial_Banks.csv` export.
 - Updated all Khmer bank names to the NBC's current official legal names.
@@ -67,8 +95,14 @@ Removal history is tracked from the 31 May 2026 directory onward, the first CSV-
 - `index.html` — semantic application shell, metadata, SVG hero illustration
 - `css/style.css` — design tokens, layouts, cards, dialogs, responsive rules
 - `js/main.js` — data loading, validation, UI rendering, localization, event handling, search, export, persistence
+- `js/sources.js` — the searchable NBC supervision section: record search, list filters, PDF page links
 - `bankbook-cambodia-directory.csv` — active directory data (55 records, 2026-08-31)
 - `bankbook-removal-history.csv` — removed-bank records with last-listed and removal dates
+- `data/nbc-institutions.json`, `data/nbc-institutions.csv` — parsed records from the NBC supervision PDFs (266 institutions)
+- `data/nbc-source-pages.json`, `data/nbc-source-pages.csv` — raw extracted text per source page, and the fallback page search
+- `data/nbc-sources/` — the original NBC supervision PDFs
+- `tools/extract-nbc-institutions.mjs` — parses the PDFs into institution records
+- `tools/check-site.mjs`, `tools/run-smoke.mjs` — headless browser checks for the site and the interaction suite
 - `favicon.ico`, `favicon.svg` — legacy and scalable favicons
 - `apple-touch-icon.png` — 180×180 iOS home-screen icon
 - `site.webmanifest` — install metadata, standard and maskable app icons
@@ -102,6 +136,20 @@ npx serve .
 python3 -m http.server 8000
 ```
 
+The NBC supervision records are generated, not hand-written. To rebuild them
+from the PDFs in `data/nbc-sources/`:
+```bash
+npm --prefix tools install
+npm --prefix tools run extract
+```
+
+The browser checks need the site served over HTTP and a Chromium browser
+(`CHROME_PATH` if it is not in a standard location):
+```bash
+npm --prefix tools run check    # the source-document section
+npm --prefix tools run smoke    # the interaction suite in tests/smoke.html
+```
+
 ## Deployment
 Push to `main` branch triggers GitHub Actions workflow to deploy to GitHub Pages. Live site: https://tmeta22.github.io/bankbookkh/
 
@@ -110,6 +158,8 @@ Directory CSV columns: Bank name (English), Bank name (Khmer), Address, Phone nu
 Runtime object: `{id, name, km, address, phone, type}` where `type` is `"local"` or `"branch"` and `id` is the 0-based directory index.
 
 Removal history CSV columns: Bank name (English), Bank name (Khmer), Address, Phone numbers, Type, Last listed, Removed date. Runtime object: `{name, km, address, phone, type, lastListed, removed}`.
+
+NBC supervision record columns: Category, No., Name (English), Name (Khmer), Address, Address (Khmer), Contact, Source PDF, Source date, Source page. Runtime object: `{id, no, name, nameKm, address, addressKm, contact, category, sourcePdf, sourceDate, page, pages}`. The contact field joins the numbers printed on the Khmer and English lines of a table row with ` · `.
 
 The NBC export also includes Khmer-language addresses; the application currently displays the English address and the official Khmer bank name.
 
