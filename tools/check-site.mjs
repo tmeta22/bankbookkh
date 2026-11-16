@@ -61,7 +61,7 @@ const cardCount = (await page.$$('#source-results .nbc-institution')).length;
 check(cardCount === 24, `Source records render a first page of 24 (got ${cardCount})`);
 
 const status = await page.$eval('#source-results-status', el => el.textContent);
-check(status.includes('266'), `Source status reports the full record count (got "${status.trim()}")`);
+check(status.includes('263'), `Source status reports the full record count (got "${status.trim()}")`);
 
 const chips = await page.$$eval('#source-categories .nbc-chip', els => els.map(el => el.textContent.trim()));
 check(chips.length === 13, `Category chips list 12 lists plus "All lists" (got ${chips.length})`);

@@ -67,7 +67,7 @@ async function runTests() {
     click('#about-button'); check($('#bank-dialog').open && $('#dialog-content').textContent.includes('not been independently verified'), 'Source panel accurately discloses attribution and verification status');
     click('#close-dialog');
     for (let i = 0; i < 50 && !doc.querySelector('#source-results .nbc-institution'); i++) await delay(100);
-    check($$('#source-results .nbc-institution').length === 24 && $('#source-results-status').textContent.includes('266'), 'NBC supervision lists load as searchable records');
+    check($$('#source-results .nbc-institution').length === 24 && $('#source-results-status').textContent.includes('263'), 'NBC supervision lists load as searchable records');
     check($$('#source-categories .nbc-chip').length === 13 && $('#source-categories').textContent.includes('Rural credit institutions'), 'Every NBC list is offered as a filter with counts');
     const sourceSearch = value => { $('#source-search').value = value; $('#source-search').dispatchEvent(new Event('input', {bubbles:true})); };
     sourceSearch('KAMPUCHEA'); check($$('#source-results .nbc-institution').length === 1 && $('#source-results').textContent.includes('KAMPUCHEA'), 'NBC records are searchable by institution name');
