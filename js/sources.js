@@ -1,7 +1,7 @@
 'use strict';
 
 // The NBC supervision documents are parsed into institution records so the new
-// data is searchable as data. The raw page text stays available as a fallback
+// data is searchable as data. Page text stays available as a fallback
 // for anything the table parse could not attribute to a record.
 (() => {
   const PAGE_SIZE = 24;

@@ -10,6 +10,7 @@
  */
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 const root = new URL('../', import.meta.url);
 const sourceDir = new URL('data/nbc-sources/', root);
@@ -261,3 +262,6 @@ const csv = '\uFEFF' + [header, ...csvRows]
 writeFileSync(new URL('data/nbc-institutions.csv', root), csv);
 
 console.log(`\n${institutions.length} institutions -> data/nbc-institutions.json, data/nbc-institutions.csv`);
+
+// The supplied corrected CSVs are authoritative for their respective lists.
+execFileSync('python3', [new URL('tools/apply-corrected-csv.py', root).pathname], { stdio: 'inherit' });

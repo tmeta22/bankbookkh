@@ -16,7 +16,7 @@ A polished, responsive, bilingual frontend for exploring Cambodia's commercial b
 - Click-to-call phone numbers
 - Filter-aware UTF-8 CSV export
 - Full removal history: banks removed from the NBC list stay visible in a dedicated, downloadable history section with last-listed and removal dates
-- Searchable NBC supervision lists: 266 records from 12 source documents (microfinance institutions, rural credit institutions, leasing companies, audit firms, foreign-exchange licensees and more) with names, addresses and contacts, filterable by list and linked back to the source PDF page
+- Searchable NBC supervision lists: 263 records from 12 source documents (microfinance institutions, rural credit institutions, leasing companies, audit firms, foreign-exchange licensees and more) with names, addresses and contacts, filterable by list and linked back to the source PDF page
 - Complete icon set (SVG + multi-size ICO/PNG, Apple touch, maskable, Windows tile), installable web manifest, and 1200×630 Open Graph/Twitter artwork
 - Keyboard shortcuts (`/` to search), full accessibility support
 - Responsive: desktop, tablet, mobile
@@ -37,7 +37,7 @@ tables, so `tools/extract-nbc-institutions.mjs` reads them by position rather
 than by text: every text run is placed by its x/y coordinate, grouped into
 rows, and assigned to a column using the table grid measured from the source
 documents. The result is `data/nbc-institutions.json` (and the matching
-`data/nbc-institutions.csv`), 266 institution records with an English name, a
+`data/nbc-institutions.csv`), 263 institution records with an English name, a
 Khmer name, an address, a Khmer address, a contact number, the source list,
 the source date, and the page the record came from.
 
@@ -46,9 +46,8 @@ name, address, Khmer address, or contact number, and open the original PDF page
 from any result. Khmer search also matches a space-free form of the name,
 because PDF extraction breaks Khmer words at unpredictable points.
 
-The raw page-by-page text is still available in `data/nbc-source-pages.csv`,
-and the **Page text** mode in the same section searches it. Use that mode to
-find wording the table parse could not attribute to a record. The sources are
+Page-by-page searchable text is available in `data/nbc-source-pages.csv`. For the ten lists with supplied corrections, it is reconstructed from the corrected CSV rows; the other two lists retain PDF-extracted text,
+and the **Page text** mode in the same section searches it. For the two PDF-extracted lists, this can help find wording the table parser could not attribute to a record. The sources are
 dated 31 May 2026, 17 March 2025, or 20 August 2024 as recorded in the data.
 The foreign-exchange documents are lists of licensed operators, not the general
 commercial-bank list, and they are dated 20 August 2024. The commercial-bank
@@ -58,6 +57,9 @@ address in a few rows, so check the original document before relying on a
 detail.
 
 ## Data updates
+### Supplied corrections
+Ten user-supplied CSVs are preserved in `data/nbc-corrected-csv/` and replace the corresponding PDF-derived names, addresses and contacts. The MDIs and MFIs lists have no supplied corrected CSV and retain their existing extraction. The CSVs contain 12 foreign-exchange commercial-bank records and 28 foreign-exchange legal-entity records; the earlier PDF extraction contained extra split records. The August 2026 commercial-bank directory is separate and unchanged. PDF page numbers are matched to the previous extraction by English name.
+
 ### NBC supervision lists
 - Parsed the 12 NBC supervision PDFs in `data/nbc-sources/` into 266 institution
   records (`data/nbc-institutions.json`, `data/nbc-institutions.csv`) by reading
@@ -69,8 +71,7 @@ detail.
   record to its page in the original PDF.
 - Khmer search matches a space-free form of the name, so it still finds
   records when PDF extraction breaks a Khmer word.
-- Kept the raw page-text search as a "Page text" mode in the same section for
-  wording the table parse could not attribute to a record.
+- Added a "Page text" search mode for the source pages.
 
 ### 31 August 2026
 - Refreshed the directory from the NBC `Commercial_Banks.csv` export.
@@ -98,8 +99,8 @@ Removal history is tracked from the 31 May 2026 directory onward, the first CSV-
 - `js/sources.js` — the searchable NBC supervision section: record search, list filters, PDF page links
 - `bankbook-cambodia-directory.csv` — active directory data (55 records, 2026-08-31)
 - `bankbook-removal-history.csv` — removed-bank records with last-listed and removal dates
-- `data/nbc-institutions.json`, `data/nbc-institutions.csv` — parsed records from the NBC supervision PDFs (266 institutions)
-- `data/nbc-source-pages.json`, `data/nbc-source-pages.csv` — raw extracted text per source page, and the fallback page search
+- `data/nbc-institutions.json`, `data/nbc-institutions.csv` — parsed records from the NBC supervision PDFs (263 institutions)
+- `data/nbc-source-pages.json`, `data/nbc-source-pages.csv` — searchable text per source page (corrected CSV rows where available)
 - `data/nbc-sources/` — the original NBC supervision PDFs
 - `tools/extract-nbc-institutions.mjs` — parses the PDFs into institution records
 - `tools/check-site.mjs`, `tools/run-smoke.mjs` — headless browser checks for the site and the interaction suite
@@ -142,6 +143,8 @@ from the PDFs in `data/nbc-sources/`:
 npm --prefix tools install
 npm --prefix tools run extract
 ```
+This command reapplies the supplied corrections using `tools/apply-corrected-csv.py`; run that script directly to reapply them without parsing the PDFs. For corrected lists the page-text view contains the supplied rows, not a literal transcription of the PDF.
+
 
 The browser checks need the site served over HTTP and a Chromium browser
 (`CHROME_PATH` if it is not in a standard location):
